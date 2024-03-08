@@ -28,8 +28,9 @@ public class NavBarManager extends AppCompatActivity {
                         Intent intent = new Intent(NavBarManager.this, ManageFilm.class);
                         startActivity(intent);
                         break;
-                    case R.id.nav_manager_theater:
-                        // Chuyển đến màn hình Profile
+                    case R.id.nav_manager_ticket:
+                        Intent intent_ticket = new Intent(NavBarManager.this, ManageTicket.class);
+                        startActivity(intent_ticket);
                         break;
                 }
                 return false;
