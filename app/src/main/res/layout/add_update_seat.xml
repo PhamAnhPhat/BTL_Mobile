@@ -70,7 +70,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_themphim"
+        android:id="@+id/btn_themghe"
         android:layout_width="161dp"
         android:layout_height="47dp"
         android:layout_marginBottom="340dp"
@@ -84,7 +84,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_suaphim"
+        android:id="@+id/btn_suaghe"
         android:layout_width="161dp"
         android:layout_height="47dp"
         android:layout_marginBottom="340dp"

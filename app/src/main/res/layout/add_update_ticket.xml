@@ -117,13 +117,12 @@
         android:text="Suất chiếu :"
         android:textSize="25dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/Thongtinphimtenphim"
         app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/turn_back_managefilm" />
 
     <Button
-        android:id="@+id/btn_themphim"
+        android:id="@+id/btn_themve"
         android:layout_width="161dp"
         android:layout_height="47dp"
         android:layout_marginBottom="20dp"
@@ -137,7 +136,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_suaphim"
+        android:id="@+id/btn_suave"
         android:layout_width="161dp"
         android:layout_height="47dp"
         android:layout_marginBottom="20dp"
@@ -211,7 +210,7 @@
         android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Giá tiền..."
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/Thongtinvemagiamgia" />
 

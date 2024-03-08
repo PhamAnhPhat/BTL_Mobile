@@ -109,7 +109,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_themphim"
+        android:id="@+id/btn_themsuat"
         android:layout_width="161dp"
         android:layout_height="47dp"
         android:layout_marginBottom="60dp"
@@ -123,7 +123,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_suaphim"
+        android:id="@+id/btn_suasuat"
         android:layout_width="161dp"
         android:layout_height="47dp"
         android:layout_marginBottom="60dp"
@@ -181,27 +181,27 @@
         app:layout_constraintStart_toEndOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/Thongtinsuatngaychieu" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="200dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="31dp"
-        android:ems="10"
-        android:hint="Nhập giá mặc định..."
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/Thongtinsuatgiochieu" />
-
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/checkBoxStatus"
         android:layout_width="200dp"
         android:layout_height="47dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="34dp"
         android:text="Hết"
         android:textSize="25dp"
         app:layout_constraintStart_toEndOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/Thongtinsuatgia" />
+
+    <EditText
+        android:id="@+id/Thongtinsuatgia"
+        android:layout_width="200dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="Nhập giá mặc định..."
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/textView16"
+        app:layout_constraintTop_toBottomOf="@+id/Thongtinsuatgiochieu" />
 
 </android.support.constraint.ConstraintLayout>
