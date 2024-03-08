@@ -32,6 +32,14 @@ public class NavBarManager extends AppCompatActivity {
                         Intent intent_ticket = new Intent(NavBarManager.this, ManageTicket.class);
                         startActivity(intent_ticket);
                         break;
+                    case R.id.nav_manager_seat:
+                        Intent intent_seat = new Intent(NavBarManager.this, ManageSeat.class);
+                        startActivity(intent_seat);
+                        break;
+                    case R.id.nav_manager_setfilm:
+                        Intent intent_setfilm = new Intent(NavBarManager.this, ManageSetFilm.class);
+                        startActivity(intent_setfilm);
+                        break;
                 }
                 return false;
             }
