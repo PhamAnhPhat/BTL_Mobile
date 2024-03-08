@@ -40,6 +40,10 @@ public class NavBarManager extends AppCompatActivity {
                         Intent intent_setfilm = new Intent(NavBarManager.this, ManageSetFilm.class);
                         startActivity(intent_setfilm);
                         break;
+                    case R.id.nav_manager_theater:
+                        Intent intent_theater = new Intent(NavBarManager.this, ManageTheater.class);
+                        startActivity(intent_theater);
+                        break;
                 }
                 return false;
             }
