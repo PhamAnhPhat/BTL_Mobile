@@ -141,7 +141,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ManageAddCoupon"
-            android:exported="true">
+            android:exported="true">g
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
