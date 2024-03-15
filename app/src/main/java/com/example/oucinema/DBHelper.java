@@ -273,8 +273,12 @@ public class DBHelper extends SQLiteOpenHelper {
             String sdt = cursor.getString(3);
 
             RapPhim rapPhim = new RapPhim(id, tenRap, diaChi, sdt,false,1);
+
             danhSachRapPhim.add(rapPhim);
         }
+//        for (RapPhim item : danhSachRapPhim) {
+//            Log.d("TAG", item.getTenRap());
+//        }
         cursor.close();
         database.close();
         return danhSachRapPhim;
