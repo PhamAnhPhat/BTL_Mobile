@@ -21,7 +21,25 @@ public class User {
         this.roleID = roleID;
     }
 
-    public User(int i, String s, String toString, String string, String s1, String toString1, Role r) {
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", hoTen='" + hoTen + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", gioiTinh='" + gioiTinh + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", roleID=" + roleID +
+                '}';
+    }
+
+    public User() {
+    }
+
+    public User(int id) {
+        this.id = id;
     }
 
     public int getId() {

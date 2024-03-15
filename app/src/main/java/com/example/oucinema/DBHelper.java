@@ -2,10 +2,12 @@ package com.example.oucinema;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
+import com.example.oucinema.model.Role;
 import com.example.oucinema.model.User;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -134,6 +136,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("insert into Role(nameRole) values('User') ");
         sqLiteDatabase.execSQL("insert into Role(nameRole) values('Admin') ");
 
+        sqLiteDatabase.execSQL("insert into User(hoTen,phoneNumber,email,gioiTinh,username,password,roleID)values ('Admin','123456789','Admin@gmail.com','admin','admin123',2)");
     }
 
 
@@ -153,7 +156,8 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("gioiTinh",user.getGioiTinh());
         cv.put("username",user.getUsername());
         cv.put("password",user.getPassword());
-        long user1 = db.insert("User", null, cv);
+        cv.put("roleID",user.getRoleID().getId());
+        long user1 = db.insert("user", null, cv);
         if(user1 ==-1){
             return false;
         }
@@ -161,12 +165,39 @@ public class DBHelper extends SQLiteOpenHelper {
             return  true;
         }
     }
+    public  boolean checkUserExist(String username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from User where username = ? ",new String[]{username});
+        if(cursor.getCount()>0){
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
-//    public boolean addRoleUser(Role role){
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues cv = new ContentValues();
-//        cv.put("nameRole","User");
-//       return true;
-//    }
+    // Hàm login
+    public boolean userLogin (String username, String password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from User where username =? and password = ? ",new String[]{username,password});
+        if(cursor.getCount()>0){
+            return  true;
+        }
+        else{
+            return  false;
+        }
+    }
+    public boolean checkRoleUser (String username, String password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from User where username =? and password =? and roleID ==2 ",new String[]{username,password});
+        if(cursor.getCount()>0){
+            return  true;
+        }
+        else{
+            return  false;
+        }
+    }
+
+
 }
