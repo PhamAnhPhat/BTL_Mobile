@@ -4,16 +4,30 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+
+import com.example.oucinema.model.RapPhim;
+
+import java.util.List;
 
 
 public class ManageTheater extends AppCompatActivity {
 
+    DBHelper dbHelper;
+    ListView lvRap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_theater);
+        dbHelper = new DBHelper(ManageTheater.this);
+
+//        lvRap = findViewById(R.id.listViewRapPhim);
+//        List<RapPhim> listRap = dbHelper.getRapPhim();
+//        ArrayAdapter theaterArrayAdapter = new ArrayAdapter<RapPhim>(ManageTheater.this,R.layout.manage_theater,listRap);
+//        lvRap.setAdapter(theaterArrayAdapter);
 
         // Nơi gọi biến
         ImageView btnMenuList= findViewById(R.id.menu_list);
