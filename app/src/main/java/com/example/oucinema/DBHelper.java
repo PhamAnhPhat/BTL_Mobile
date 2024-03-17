@@ -10,7 +10,9 @@ import android.util.Log;
 
 import com.example.oucinema.model.Ghe;
 import com.example.oucinema.model.Phim;
+import com.example.oucinema.model.Phong;
 import com.example.oucinema.model.RapPhim;
+import com.example.oucinema.model.Suat;
 import com.example.oucinema.model.User;
 
 import java.sql.Date;
@@ -62,6 +64,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "userUpdate INTEGER);");
         sqLiteDatabase.execSQL("insert into Phim(tenPhim,moTa,theLoai,thoiLuong,ngayPhatHanh,daoDien,hinhAnh,linkTrailer,isDelete,userUpdate) " +
                 "                         values('Mai','Phim về Mai và Sâu','Tình cảm',120,'2024-3-13','Trấn Thành','hinhanh','linktrailer',false,1) ");
+        sqLiteDatabase.execSQL("insert into Phim(tenPhim,moTa,theLoai,thoiLuong,ngayPhatHanh,daoDien,hinhAnh,linkTrailer,isDelete,userUpdate) " +
+                "                         values('Harry Potter','Phim về Harry','Siêu nhiên',120,'2024-3-13','Trấn Thành','hinhanh','linktrailer',false,1) ");
         //Bảng Rạp Phim
         sqLiteDatabase.execSQL("create table RapPhim(" +
                 "id INTEGER primary key autoincrement," +
@@ -112,6 +116,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 ");");
         sqLiteDatabase.execSQL("insert into Suat(ngayChieu,gioChieu,giaMacDinh,phimID,phongID,isDelete,userUpdate) values('14/3/2024','14:30:00',45000,1,1,false,1) ");
         sqLiteDatabase.execSQL("insert into Suat(ngayChieu,gioChieu,giaMacDinh,phimID,phongID,isDelete,userUpdate) values('14/3/2024','15:30:00',45000,1,2,false,1) ");
+        sqLiteDatabase.execSQL("insert into Suat(ngayChieu,gioChieu,giaMacDinh,phimID,phongID,isDelete,userUpdate) values('14/3/2024','15:30:00',45000,2,2,false,1) ");
         //Bảng Mã giảm giá
         sqLiteDatabase.execSQL("create table MaGiamGia (" +
                 "id INTEGER primary key autoincrement," +
@@ -253,7 +258,7 @@ public class DBHelper extends SQLiteOpenHelper {
             Log.d("MyActivity", "Column name: " + columnName);
             while (cursor.moveToNext()) {
                 String userID = cursor.getString(columnIndex);
-                // Process user data here (e.g., using userID)
+
                 Log.d("Test", "UserID: " + userID);
                 return userID;
             }
@@ -337,5 +342,67 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         database.close();
         return listSeat;
+    }
+
+    // Hàm cho User
+    public ArrayList<User> getAllUser (){
+        ArrayList<User> listUser = new ArrayList<>();
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT * FROM User", null);
+
+        while (cursor.moveToNext()) {
+
+            int id = cursor.getInt(0);
+            String hotenUser = cursor.getString(1);
+            String username = cursor.getString(6);
+            User u = new User();
+            u.setId(id);
+            u.setHoTen(hotenUser);
+            u.setUsername(username);
+
+            listUser.add(u);
+        }
+        cursor.close();
+        database.close();
+        return listUser;
+    }
+
+    // Hàm cho SetFilm
+    public ArrayList<Suat> getSetFilm (){
+        ArrayList<Suat> listSuat = new ArrayList<>();
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT Suat.*, Phim.tenPhim, Phong.tenPhong " +
+                "FROM Suat INNER JOIN Phim ON Suat.phimID = Phim.id INNER JOIN Phong ON Suat.phongID = Phong.id", null);
+
+        while (cursor.moveToNext()) {
+
+            int id = cursor.getInt(0);
+           int phimID =cursor.getInt(4);
+            int phongID = cursor.getInt(5);
+            double gia = cursor.getDouble(3);
+
+
+            Suat s = new Suat();
+            Phim p = new Phim();
+
+            Phong phong = new Phong();
+            String namePhim = cursor.getString(8);
+            String namePhong = cursor.getString(9);
+//            Log.d("Test", "UserID: " + namePhong);
+            p.setId(phimID);
+            p.setTenPhim(namePhim);
+
+            phong.setId(phongID);
+            phong.setTenPhong(namePhong);
+
+            s.setPhimID(p);
+            s.setPhongID(phong);
+            s.setGiaMacDinh(gia);
+            listSuat.add(s);
+
+        }
+        cursor.close();
+        database.close();
+        return listSuat;
     }
 }
