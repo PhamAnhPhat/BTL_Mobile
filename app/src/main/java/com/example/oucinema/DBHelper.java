@@ -15,6 +15,7 @@ import com.example.oucinema.model.Phong;
 import com.example.oucinema.model.RapPhim;
 import com.example.oucinema.model.Suat;
 import com.example.oucinema.model.User;
+import com.example.oucinema.model.Ve;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -115,9 +116,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 "foreign key (phimID) references Phim(id)," +
                 "foreign key (phongID) references Phong(id)" +
                 ");");
-        sqLiteDatabase.execSQL("insert into Suat(ngayChieu,gioChieu,giaMacDinh,phimID,phongID,isDelete,userUpdate) values('14/3/2024','14:30:00',45000,1,1,false,1) ");
-        sqLiteDatabase.execSQL("insert into Suat(ngayChieu,gioChieu,giaMacDinh,phimID,phongID,isDelete,userUpdate) values('14/3/2024','15:30:00',45000,1,2,false,1) ");
-        sqLiteDatabase.execSQL("insert into Suat(ngayChieu,gioChieu,giaMacDinh,phimID,phongID,isDelete,userUpdate) values('14/3/2024','15:30:00',45000,2,2,false,1) ");
+        sqLiteDatabase.execSQL("insert into Suat(ngayChieu,gioChieu,giaMacDinh,phimID,phongID,isDelete,userUpdate) values('2024-3-14','14:30:00',45000,1,1,false,1) ");
+        sqLiteDatabase.execSQL("insert into Suat(ngayChieu,gioChieu,giaMacDinh,phimID,phongID,isDelete,userUpdate) values('2024-3-14','15:30:00',45000,1,2,false,1) ");
+        sqLiteDatabase.execSQL("insert into Suat(ngayChieu,gioChieu,giaMacDinh,phimID,phongID,isDelete,userUpdate) values('2024-3-14','15:30:00',45000,2,2,false,1) ");
         //Bảng Mã giảm giá
         sqLiteDatabase.execSQL("create table MaGiamGia (" +
                 "id INTEGER primary key autoincrement," +
@@ -146,6 +147,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 "foreign key (userID) references User(id)" +
                 ");");
 
+        sqLiteDatabase.execSQL("insert into Ve(suatID,gheID,giamGiaID,userID,giaTien,thoiGianDat,hinhThuc,isDelete,userUpdate)" +
+                "values (2,4,1,2,45000,'2024-3-15','Chuyển khoản',false,2)");
+
         //Bảng đánh giá
         sqLiteDatabase.execSQL("create table DanhGia(" +
                 "id INTEGER primary key autoincrement," +
@@ -162,6 +166,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
         sqLiteDatabase.execSQL("insert into User(hoTen,phoneNumber,email,gioiTinh,username,password,roleID)values ('Admin','123456789','Admin@gmail.com','Nam','admin','admin123',2)");
+        sqLiteDatabase.execSQL("insert into User(hoTen,phoneNumber,email,gioiTinh,username,password,roleID)values ('test1','123456789','Admin@gmail.com','Nam','user','123',1)");
 
 
     }
@@ -465,5 +470,47 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         database.close();
         return listCoupon;
+    }
+
+    // Hàm cho Vé
+    public ArrayList<Ve> getTicket (){
+        ArrayList<Ve> listTicket = new ArrayList<>();
+
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT Ve.*,Suat.ngayChieu,Ghe.tenGhe,User.hoTen FROM Ve,Suat,Ghe,User " +
+                "WHERE Ve.suatID = Suat.id AND Ve.gheID=Ghe.id AND Ve.userID = User.id", null);
+
+        while (cursor.moveToNext()) {
+            User u = new User();
+            Ghe ghe = new Ghe();
+            Suat suat = new Suat();
+            Ve ve = new Ve();
+
+            int id = cursor.getInt(0);
+            String hoten = cursor.getString(12);
+            String tenGhe = cursor.getString(11);
+            Double giatien = cursor.getDouble(5);
+            String ngaychieu = cursor.getString(10);
+            java.sql.Date ngayChieu = java.sql.Date.valueOf(ngaychieu.toString());
+            String ngaydat = cursor.getString(6);
+            java.sql.Date ngayDat = java.sql.Date.valueOf(ngaydat.toString());
+            String hinhThuc = cursor.getString(7);
+
+            u.setHoTen(hoten);
+            ghe.setTenGhe(tenGhe);
+            suat.setNgayChieu(ngayChieu);
+
+            ve.setId(id);
+            ve.setGheID(ghe);
+            ve.setUserID(u);
+            ve.setSuatID(suat);
+            ve.setGiaTien(giatien);
+            ve.setHinhThuc(hinhThuc);
+            ve.setThoiGianDat(ngayDat);
+            listTicket.add(ve);
+        }
+        cursor.close();
+        database.close();
+        return listTicket;
     }
 }
