@@ -329,6 +329,34 @@ public class DBHelper extends SQLiteOpenHelper {
         return listFilm;
     }
 
+    public boolean addFilm(Phim phim){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String ngayPhatHanhString = sdf.format(phim.getNgayPhatHanh());
+
+        cv.put("ngayPhatHanh", ngayPhatHanhString);
+        cv.put("tenPhim",phim.getTenPhim());
+        cv.put("moTa",phim.getMoTa());
+        cv.put("theLoai",phim.getTheLoai());
+        cv.put("thoiLuong",phim.getThoiLuong());
+        cv.put("ngayPhatHanh",ngayPhatHanhString);
+        cv.put("daoDien",phim.getDaoDien());
+        cv.put("hinhAnh","test");
+        cv.put("linkTrailer",phim.getLinkTrailer());
+        cv.put("isDelete",false);
+        cv.put("userUpdate",1);
+
+        long phim1 = db.insert("Phim", null, cv);
+        if(phim1 ==-1){
+            return false;
+        }
+        else{
+            return  true;
+        }
+    }
+
     // Hàm cho Ghế
     public ArrayList<Ghe> getGhe (){
         ArrayList<Ghe> listSeat = new ArrayList<>();
@@ -351,6 +379,24 @@ public class DBHelper extends SQLiteOpenHelper {
         database.close();
         return listSeat;
     }
+    public boolean addSeat(Ghe ghe){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("tenGhe",ghe.getTenGhe());
+        cv.put("loaiGhe",ghe.getLoaiGhe());
+        cv.put("isDelete",false);
+        cv.put("userUpdate",1);
+
+        long ghe1 = db.insert("Ghe", null, cv);
+        if(ghe1 ==-1){
+            return false;
+        }
+        else{
+            return  true;
+        }
+    }
+
 
     // Hàm cho User
     public ArrayList<User> getAllUser (){
