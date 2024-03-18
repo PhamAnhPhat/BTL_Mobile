@@ -13,6 +13,7 @@ import com.example.oucinema.model.MaGiamGia;
 import com.example.oucinema.model.Phim;
 import com.example.oucinema.model.Phong;
 import com.example.oucinema.model.RapPhim;
+import com.example.oucinema.model.Role;
 import com.example.oucinema.model.Suat;
 import com.example.oucinema.model.User;
 import com.example.oucinema.model.Ve;
@@ -187,6 +188,24 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("password", user.getPassword());
         cv.put("roleID", user.getRoleID().getId());
         long user1 = db.insert("user", null, cv);
+        if (user1 == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public boolean updateUser(User user, String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("hoTen", user.getHoTen());
+        cv.put("phoneNumber", user.getPhoneNumber());
+        cv.put("email", user.getEmail());
+        cv.put("gioiTinh", "Nam");
+        cv.put("username", user.getUsername());
+        cv.put("password", user.getPassword());
+        cv.put("roleID", user.getRoleID().getId());
+
+        long user1 = db.update("User", cv, "id= " + id, null);
         if (user1 == -1) {
             return false;
         } else {
@@ -471,20 +490,27 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-//    public boolean deleteGhe(Ghe ghe){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues cv = new ContentValues();
-//        cv.put("isDelete",ghe.getDelete());
-//        long ghe1 = db.update("Ghe",cv,"id"+"="+ghe.getId(),null);
-//        if(ghe1 ==-1){
-//            return false;
-//        }
-//        else{
-//            return  true;
-//        }
-//    }
 
+    //Hàm Role
+    public ArrayList<Role> getRole() {
+        ArrayList<Role> listRole = new ArrayList<>();
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT * FROM Role", null);
 
+        while (cursor.moveToNext()) {
+
+            int id = cursor.getInt(0);
+            String rolename = cursor.getString(1);
+            Role r = new Role();
+
+            r.setId(id);
+            r.setNameRole(rolename);
+            listRole.add(r);
+        }
+        cursor.close();
+        database.close();
+        return listRole;
+    }
     // Hàm cho User
     public ArrayList<User> getAllUser() {
         ArrayList<User> listUser = new ArrayList<>();
@@ -496,11 +522,20 @@ public class DBHelper extends SQLiteOpenHelper {
             int id = cursor.getInt(0);
             String hotenUser = cursor.getString(1);
             String username = cursor.getString(6);
+            String pass = cursor.getString(7);
+            String email = cursor.getString(3);
+            String sdt = cursor.getString(2);
+            int roleID = cursor.getInt(7);
+            Role r = new Role();
+            r.setId(roleID);
             User u = new User();
             u.setId(id);
             u.setHoTen(hotenUser);
             u.setUsername(username);
-
+            u.setPassword(pass);
+            u.setEmail(email);
+            u.setPhoneNumber(sdt);
+            u.setRoleID(r);
             listUser.add(u);
         }
         cursor.close();
@@ -521,8 +556,13 @@ public class DBHelper extends SQLiteOpenHelper {
             int phimID = cursor.getInt(4);
             int phongID = cursor.getInt(5);
             double gia = cursor.getDouble(3);
+            String ngaychieu= cursor.getString(1);
+            String giochieu =cursor.getString(2);
 
-
+            java.sql.Date ngayChieu = java.sql.Date.valueOf(ngaychieu.toString());
+            java.sql.Time gioChieu = java.sql.Time.valueOf(giochieu.toString());
+            SimpleDateFormat sdfh = new SimpleDateFormat("hh:mm:ss");
+            String gioChieuString = sdfh.format(gioChieu);
             Suat s = new Suat();
             Phim p = new Phim();
 
@@ -535,10 +575,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
             phong.setId(phongID);
             phong.setTenPhong(namePhong);
-
+            s.setId(id);
             s.setPhimID(p);
             s.setPhongID(phong);
+            s.setNgayChieu(ngayChieu);
+            s.setGioChieu(gioChieu);
             s.setGiaMacDinh(gia);
+
             listSuat.add(s);
 
         }
@@ -568,6 +611,32 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("userUpdate", 1);
 
         long suat1 = db.insert("Suat", null, cv);
+        if (suat1 == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean updateSuat(Suat suat, String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String ngayChieuString = sdf.format(suat.getNgayChieu());
+        SimpleDateFormat sdfh = new SimpleDateFormat("hh:mm:ss");
+        String gioChieuString = sdfh.format(suat.getGioChieu());
+
+        cv.put("ngayChieu", ngayChieuString);
+        cv.put("gioChieu", gioChieuString);
+        cv.put("giaMacDinh", suat.getGiaMacDinh());
+        int idPhim = suat.getPhimID().getId();
+        int idPhong = suat.getPhongID().getId();
+        cv.put("phimID", idPhim);
+        cv.put("phongID", idPhong);
+        cv.put("isDelete", false);
+        cv.put("userUpdate", 1);
+
+        long suat1 = db.update("Suat", cv, "id= " + id, null);
         if (suat1 == -1) {
             return false;
         } else {
@@ -718,13 +787,14 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<Ve> listTicket = new ArrayList<>();
 
         SQLiteDatabase database = getReadableDatabase();
-        Cursor cursor = database.rawQuery("SELECT Ve.*,Suat.ngayChieu,Ghe.tenGhe,User.hoTen FROM Ve,Suat,Ghe,User " +
-                "WHERE Ve.suatID = Suat.id AND Ve.gheID=Ghe.id AND Ve.userID = User.id", null);
+        Cursor cursor = database.rawQuery("SELECT Ve.*,Suat.ngayChieu,Ghe.tenGhe,User.hoTen,MaGiamGia.tenMaGiam FROM Ve,Suat,Ghe,User,MaGiamGia " +
+                "WHERE Ve.suatID = Suat.id AND Ve.gheID=Ghe.id AND Ve.userID = User.id AND Ve.giamGiaID=MaGiamGia.id", null);
 
         while (cursor.moveToNext()) {
             User u = new User();
             Ghe ghe = new Ghe();
             Suat suat = new Suat();
+            MaGiamGia m = new MaGiamGia();
             Ve ve = new Ve();
 
             int id = cursor.getInt(0);
@@ -736,15 +806,19 @@ public class DBHelper extends SQLiteOpenHelper {
             String ngaydat = cursor.getString(6);
             java.sql.Date ngayDat = java.sql.Date.valueOf(ngaydat.toString());
             String hinhThuc = cursor.getString(7);
+            int idMa = cursor.getInt(13);
 
             u.setHoTen(hoten);
             ghe.setTenGhe(tenGhe);
             suat.setNgayChieu(ngayChieu);
+            m.setId(idMa);
 
             ve.setId(id);
             ve.setGheID(ghe);
             ve.setUserID(u);
             ve.setSuatID(suat);
+            ve.setMaID(m);
+
             ve.setGiaTien(giatien);
             ve.setHinhThuc(hinhThuc);
             ve.setThoiGianDat(ngayDat);
@@ -753,5 +827,27 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         database.close();
         return listTicket;
+    }
+
+    public boolean updateVe(Ve ve, String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+       cv.put("suatID",ve.getSuatID().getId());
+       cv.put("gheID",ve.getGheID().getId());
+       cv.put("giaGiaID",ve.getMaID().getId());
+       cv.put("userID",ve.getUserID().getId());
+       cv.put("giaTien",ve.getGiaTien());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String thoiGianDat = sdf.format(ve.getThoiGianDat());
+        cv.put("thoiGianDat",thoiGianDat);
+        cv.put("hinhThuc",ve.getHinhThuc());
+
+
+        long ve1 = db.update("Ve", cv, "id= " + id, null);
+        if (ve1 == -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

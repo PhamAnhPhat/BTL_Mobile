@@ -47,6 +47,8 @@ public class ManageAddRoom extends AppCompatActivity {
         // update dữ liệu từ intent
         if(idRoom!=-1 && idRap!=-1){
             AddTenPhong.setText(nameRoom);
+
+
             int[] arrayIdRap = new int[listRap.size()];
             for (int i = 0; i < listRap.size(); i++) {
                 arrayIdRap[i] = listRap.get(i).getId();
@@ -59,12 +61,9 @@ public class ManageAddRoom extends AppCompatActivity {
                     break;
                 }
             }
-
-
             if (position != -1) {
                 spinTheater.setSelection(position);
             }
-//            spinTheater.setSelection(idRap);
 
         }else{
             AddTenPhong.getText().clear();
