@@ -16,56 +16,71 @@ import android.widget.TextView;
 public class NavBarManager extends AppCompatActivity {
     // Biến navigationview
     private NavigationView navigationView;
-    TextView textID;
+    TextView textName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_bar);
         navigationView = findViewById(R.id.navigation_view);
 
-//        textID = findViewById(R.id.textview23);
-//        Bundle bundle = getIntent().getExtras();
-//        if (bundle != null && bundle.containsKey("user_id")) {
-//            String userId = bundle.getString("user_id");
-//            Log.d("Test", "UserIDssssss: " + userId);
-//            textID.setText(userId);
-//        } else {
-//            textID.setText("Errorrrrr");
-//        }
+        String user_id = getIntent().getStringExtra("user_id");
+
+
+        textName = findViewById(R.id.navigation_manage_ten);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null && bundle.containsKey("user_name")) {
+            String userName = bundle.getString("user_name");
+            Log.d("Test", "Name: " + userName);
+            Log.d("Test", "UserID: " + user_id);
+            textName.setText(userName);
+
+        } else {
+            textName.setText("Errorrrrr");
+        }
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.nav_manager_Film:
                         Intent intent = new Intent(NavBarManager.this, ManageFilm.class);
+                        intent.putExtra("user_id",user_id);
                         startActivity(intent);
                         break;
                     case R.id.nav_manager_ticket:
                         Intent intent_ticket = new Intent(NavBarManager.this, ManageTicket.class);
+                        intent_ticket.putExtra("user_id",user_id);
                         startActivity(intent_ticket);
                         break;
                     case R.id.nav_manager_seat:
                         Intent intent_seat = new Intent(NavBarManager.this, ManageSeat.class);
+                        intent_seat.putExtra("user_id",user_id);
                         startActivity(intent_seat);
                         break;
                     case R.id.nav_manager_setfilm:
                         Intent intent_setfilm = new Intent(NavBarManager.this, ManageSetFilm.class);
+                        intent_setfilm.putExtra("user_id",user_id);
                         startActivity(intent_setfilm);
                         break;
                     case R.id.nav_manager_theater:
                         Intent intent_theater = new Intent(NavBarManager.this, ManageTheater.class);
+                        intent_theater.putExtra("user_id",user_id);
                         startActivity(intent_theater);
                         break;
                     case R.id.nav_manager_user:
                         Intent intent_user = new Intent(NavBarManager.this, ManageUser.class);
+                        intent_user.putExtra("user_id",user_id);
                         startActivity(intent_user);
                         break;
                     case R.id.nav_manager_room:
                         Intent intent_room = new Intent(NavBarManager.this, ManageRoom.class);
+                        intent_room.putExtra("user_id",user_id);
                         startActivity(intent_room);
                         break;
                     case R.id.nav_manager_discount:
                         Intent intent_coupon = new Intent(NavBarManager.this, ManageCoupon.class);
+                        intent_coupon.putExtra("user_id",user_id);
                         startActivity(intent_coupon);
                         break;
                     case R.id.nav_manager_logout:

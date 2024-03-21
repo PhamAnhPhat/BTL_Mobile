@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.oucinema.adapter.RoomAdapter;
 import com.example.oucinema.adapter.SeatAdapter;
@@ -31,9 +32,16 @@ public class ManageRoom extends AppCompatActivity {
         dbHelper = new DBHelper(ManageRoom.this);
         tk= findViewById(R.id.manage_search_room);
         lvRoom = findViewById(R.id.listViewRoom);
+
         ArrayList<Phong> listPhong = dbHelper.getPhong();
         RoomAdapter roomAdapter = new RoomAdapter(this,R.layout.list_room,listPhong);
         lvRoom.setAdapter(roomAdapter);
+
+        String user_id = getIntent().getStringExtra("user_id");
+        if(user_id !=null)
+        Log.d("test","user id from room "+user_id);
+        else
+            Log.d("test","error ");
 
         tk.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -59,6 +67,7 @@ public class ManageRoom extends AppCompatActivity {
         btnMenuList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });

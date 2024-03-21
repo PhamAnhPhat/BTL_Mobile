@@ -37,6 +37,7 @@ public class ManageFilm extends AppCompatActivity {
         TextView textID;
         textID= findViewById(R.id.textView22);
 
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.containsKey("user_id")) {
             String userId = bundle.getString("user_id");
@@ -81,8 +82,10 @@ public class ManageFilm extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String user_name = dbHelper.getUserNAMELogin(textID.getText().toString());
+                String user_id = textID.getText().toString();
                 Intent intent = new Intent(ManageFilm.this,NavBarManager.class);
                 intent.putExtra("user_name", user_name);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
