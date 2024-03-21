@@ -29,6 +29,11 @@ public class ManageCoupon extends AppCompatActivity {
         dbHelper = new DBHelper(ManageCoupon.this);
         tk = findViewById(R.id.manage_search_coupon);
 
+        String user_id = getIntent().getStringExtra("user_id");
+        if(user_id !=null)
+            Log.d("test","user id from coupon "+user_id);
+        else
+            Log.d("test","error ");
 
         lvCoupon = findViewById(R.id.listViewCoupon);
         ArrayList<MaGiamGia> listCoupon = dbHelper.getGoupon();
@@ -53,7 +58,7 @@ public class ManageCoupon extends AppCompatActivity {
 
         // Nơi gọi biến
         ImageView btnMenuList= findViewById(R.id.menu_list);
-        ImageView btnAddFilm= findViewById(R.id.manage_add_coupon);
+        ImageView btnAddCP= findViewById(R.id.manage_add_coupon);
         // Tạo Intent
         Intent intent = new Intent(this, NavBarManager.class);
         Intent intentAddCoupon = new Intent(this, ManageAddCoupon.class);
@@ -62,13 +67,15 @@ public class ManageCoupon extends AppCompatActivity {
         btnMenuList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });
         // Mở trang thêm sửa phim
-        btnAddFilm.setOnClickListener(new View.OnClickListener() {
+        btnAddCP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intentAddCoupon.putExtra("user_id",user_id);
                 startActivity(intentAddCoupon);
             }
         });

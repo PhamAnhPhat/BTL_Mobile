@@ -821,7 +821,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("phanTramGiam", mgg.getPhanTramGiam());
         cv.put("thoiGianHieuLuc", ngayPhatHanhString);
         cv.put("isDelete", false);
-        cv.put("userUpdate", 1);
+        cv.put("userUpdate", mgg.getUserUpdate());
 
         long mgg1 = db.insert("MaGiamGia", null, cv);
         if (mgg1 == -1) {

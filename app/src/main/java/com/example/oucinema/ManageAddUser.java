@@ -3,6 +3,7 @@ package com.example.oucinema;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,11 @@ public class ManageAddUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_update_user);
         dbHelper = new DBHelper(ManageAddUser.this);
-
+        String user_id = getIntent().getStringExtra("user_id");
+        if(user_id !=null)
+            Log.d("test","user id from adduser "+user_id);
+        else
+            Log.d("test","error ");
         hoten=findViewById(R.id.thongtinuserhoten);
         sdt = findViewById(R.id.thongtinusersdt);
         etemail=findViewById(R.id.thongtinuseremail);
@@ -115,6 +120,8 @@ public class ManageAddUser extends AppCompatActivity {
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });

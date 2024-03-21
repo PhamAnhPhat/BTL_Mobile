@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 //import com.cloudinary.android.* ;
 import com.example.oucinema.model.Phim;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,14 +29,18 @@ public class ManageAddFilm extends AppCompatActivity {
     DBHelper dbHelper;
     EditText etTenPhim, etMoTa, etTheLoai, etThoiLuong, etNgayPhatHanh, etDaoDien, etLinkTrailer;
     Button btnThemFilm,btnSuaFilm,btnXoaFilm,btnHinhAnh;
-
+    private static final int PICK_IMAGE_REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_update_film);
         dbHelper = new DBHelper(ManageAddFilm.this);
 
-
+        String user_id = getIntent().getStringExtra("user_id");
+        if(user_id !=null)
+            Log.d("test","user id from addfilm "+user_id);
+        else
+            Log.d("test","error ");
 
         // Lấy dữ liệu từ Intent
         int itemId = getIntent().getIntExtra("item_id", -1);
@@ -155,9 +162,33 @@ public class ManageAddFilm extends AppCompatActivity {
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });
 
+        // nút thêm hình ảnh
+        btnHinhAnh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE);
+            }
+        });
+
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+            ImageView e = findViewById(R.id.imageView13);
+            e.setImageURI(imageUri);
+
+        }
+    }
+
+
 }

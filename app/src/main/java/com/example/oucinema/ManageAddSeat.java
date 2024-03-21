@@ -24,7 +24,11 @@ public class ManageAddSeat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_update_seat);
         dbHelper = new DBHelper(ManageAddSeat.this);
-
+        String user_id = getIntent().getStringExtra("user_id");
+        if(user_id !=null)
+            Log.d("test","user id from addseat "+user_id);
+        else
+            Log.d("test","error ");
 
 
         // Nơi gọi biến
@@ -62,6 +66,7 @@ public class ManageAddSeat extends AppCompatActivity {
                 Ghe g = new Ghe();
                 String tengheString = etTenGhe.getText().toString();
                 g.setTenGhe(tengheString);
+                g.setUserUpdate(Integer.parseInt(user_id));
                 if(rdThuong.isChecked()){
                     g.setLoaiGhe(rdThuong.getText().toString());
                 }
@@ -85,6 +90,7 @@ public class ManageAddSeat extends AppCompatActivity {
                 try{
                     Ghe g = new Ghe();
                     g.setId(gheId);
+                    g.setUserUpdate(Integer.parseInt(user_id));
                     String idd= String.valueOf(gheId);
                     boolean b = dbHelper.deleteGhe(g,idd);
 
@@ -108,6 +114,7 @@ public class ManageAddSeat extends AppCompatActivity {
                 Ghe g = new Ghe();
                 String tengheString = etTenGhe.getText().toString();
                 g.setTenGhe(tengheString);
+//                g.setUserUpdate(Integer.parseInt(user_id));
                 if(rdThuong.isChecked()){
                     g.setLoaiGhe(rdThuong.getText().toString());
                 }
@@ -132,6 +139,7 @@ public class ManageAddSeat extends AppCompatActivity {
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });

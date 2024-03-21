@@ -29,7 +29,11 @@ public class ManageAddRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_update_room);
         dbHelper = new DBHelper(ManageAddRoom.this);
-
+        String user_id = getIntent().getStringExtra("user_id");
+        if(user_id !=null)
+            Log.d("test","user id from addroom "+user_id);
+        else
+            Log.d("test","error ");
         // Nơi gọi biến
         AddTenPhong = findViewById(R.id.Thongtinphongtenphong);
         btnThemRoom=findViewById(R.id.btnthongtinphongthem);
@@ -84,6 +88,7 @@ public class ManageAddRoom extends AppCompatActivity {
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });

@@ -67,7 +67,7 @@ public class ManageRoom extends AppCompatActivity {
         btnMenuList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra("user_id",user_id);
+                intentAddRoom.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });
@@ -75,6 +75,7 @@ public class ManageRoom extends AppCompatActivity {
         btnAddFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intent.putExtra("user_id",user_id);
                 startActivity(intentAddRoom);
             }
         });

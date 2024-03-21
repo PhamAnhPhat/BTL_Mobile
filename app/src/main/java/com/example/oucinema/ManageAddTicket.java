@@ -37,6 +37,13 @@ public class ManageAddTicket extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_update_ticket);
         dbHelper = new DBHelper(ManageAddTicket.this);
+
+        String user_id = getIntent().getStringExtra("user_id");
+        if(user_id !=null)
+            Log.d("test","user id from addticket "+user_id);
+        else
+            Log.d("test","error ");
+
         etTime=findViewById(R.id.thongtinvethoigiandat);
         etHoTen=findViewById(R.id.Thongtinvekhachang);
         spinSeat=findViewById(R.id.Thongtinveghe);
@@ -144,6 +151,7 @@ public class ManageAddTicket extends AppCompatActivity {
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });

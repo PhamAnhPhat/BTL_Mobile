@@ -32,7 +32,11 @@ public class ManageAddSetFilm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_update_setfilm);
         dbHelper = new DBHelper(ManageAddSetFilm.this);
-
+        String user_id = getIntent().getStringExtra("user_id");
+        if(user_id !=null)
+            Log.d("test","user id from addsetfilm "+user_id);
+        else
+            Log.d("test","error ");
         // Nơi gọi biến
         AddSetFilmNC = findViewById(R.id.Thongtinsuatngaychieu);
         AddSetFilmTL=findViewById(R.id.Thongtinsuatgiochieu);
@@ -112,6 +116,7 @@ public class ManageAddSetFilm extends AppCompatActivity {
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });

@@ -30,7 +30,11 @@ public class ManageSetFilm extends AppCompatActivity {
         setContentView(R.layout.manage_setfilm);
         dbHelper = new DBHelper(ManageSetFilm.this);
         tk= findViewById(R.id.manage_search_setfilm);
-
+        String user_id = getIntent().getStringExtra("user_id");
+        if(user_id !=null)
+            Log.d("test","user id from setfilm "+user_id);
+        else
+            Log.d("test","error ");
 
         lvsetFilm = findViewById(R.id.listViewsetFilm);
         ArrayList<Suat> listSetFilm = dbHelper.getSetFilm();
@@ -62,6 +66,7 @@ public class ManageSetFilm extends AppCompatActivity {
         btnMenuList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });
@@ -69,6 +74,7 @@ public class ManageSetFilm extends AppCompatActivity {
         btnAddFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intentAddSetFilm.putExtra("user_id",user_id);
                 startActivity(intentAddSetFilm);
             }
         });

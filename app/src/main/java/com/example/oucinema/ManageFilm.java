@@ -46,7 +46,8 @@ public class ManageFilm extends AppCompatActivity {
         } else {
             textID.setText("Errorrrrr");
         }
-
+        String user_name = dbHelper.getUserNAMELogin(textID.getText().toString());
+        String user_id = getIntent().getStringExtra("user_id");
         lvFilm = findViewById(R.id.listViewFilm);
         ArrayList<Phim> listPhim = dbHelper.getPhim();
 
@@ -81,8 +82,7 @@ public class ManageFilm extends AppCompatActivity {
         btnMenuList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user_name = dbHelper.getUserNAMELogin(textID.getText().toString());
-                String user_id = textID.getText().toString();
+
                 Intent intent = new Intent(ManageFilm.this,NavBarManager.class);
                 intent.putExtra("user_name", user_name);
                 intent.putExtra("user_id", user_id);
@@ -132,6 +132,7 @@ public class ManageFilm extends AppCompatActivity {
         btnAddFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intentAddFilm.putExtra("user_id", user_id);
                 startActivity(intentAddFilm);
             }
         });

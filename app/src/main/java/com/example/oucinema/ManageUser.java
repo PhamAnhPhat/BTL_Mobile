@@ -31,7 +31,11 @@ public class ManageUser extends AppCompatActivity {
         dbHelper = new DBHelper(ManageUser.this);
         tk= findViewById(R.id.manage_search_user);
         lvUser = findViewById(R.id.listViewUser);
-
+        String user_id = getIntent().getStringExtra("user_id");
+        if(user_id !=null)
+            Log.d("test","user id from ticket "+user_id);
+        else
+            Log.d("test","error ");
         ArrayList<User> listUser = dbHelper.getAllUser();
 
         UserAdapter userAdapter = new UserAdapter(this,R.layout.list_user,listUser);
@@ -61,6 +65,7 @@ public class ManageUser extends AppCompatActivity {
         btnMenuList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intentAddUser.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });
@@ -68,6 +73,7 @@ public class ManageUser extends AppCompatActivity {
         btnAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intent.putExtra("user_id",user_id);
                 startActivity(intentAddUser);
             }
         });
