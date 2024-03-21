@@ -25,6 +25,7 @@ public class ManageAddSeat extends AppCompatActivity {
         setContentView(R.layout.add_update_seat);
         dbHelper = new DBHelper(ManageAddSeat.this);
         String user_id = getIntent().getStringExtra("user_id");
+        String user_name = getIntent().getStringExtra("user_name");
         if(user_id !=null)
             Log.d("test","user id from addseat "+user_id);
         else
@@ -114,6 +115,7 @@ public class ManageAddSeat extends AppCompatActivity {
                 Ghe g = new Ghe();
                 String tengheString = etTenGhe.getText().toString();
                 g.setTenGhe(tengheString);
+                g.setUserUpdate(Integer.parseInt(user_id));
 //                g.setUserUpdate(Integer.parseInt(user_id));
                 if(rdThuong.isChecked()){
                     g.setLoaiGhe(rdThuong.getText().toString());
@@ -140,6 +142,7 @@ public class ManageAddSeat extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent.putExtra("user_id",user_id);
+                intent.putExtra("user_name",user_name);
                 startActivity(intent);
             }
         });

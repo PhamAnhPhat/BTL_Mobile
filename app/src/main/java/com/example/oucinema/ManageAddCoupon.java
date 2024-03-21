@@ -24,6 +24,7 @@ public class ManageAddCoupon extends AppCompatActivity {
         setContentView(R.layout.add_update_coupon);
         dbHelper = new DBHelper(ManageAddCoupon.this);
         String user_id = getIntent().getStringExtra("user_id");
+        String user_name = getIntent().getStringExtra("user_name");
         if(user_id !=null)
             Log.d("test","user id from addcoupon "+user_id);
         else
@@ -67,6 +68,7 @@ public class ManageAddCoupon extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent.putExtra("user_id",user_id);
+                intent.putExtra("user_name",user_name);
                 startActivity(intent);
             }
         });
@@ -87,6 +89,7 @@ public class ManageAddCoupon extends AppCompatActivity {
                         mgg.setThoiGianHieuLuc(date);
                         mgg.setUserUpdate(Integer.parseInt(user_id));
                         String idd = String.valueOf(id);
+
                         boolean b = dbHelper.updateMgg(mgg,idd);
                         if(b){
                             Toast.makeText(ManageAddCoupon.this,"Sửa mã giảm giá thành công",Toast.LENGTH_LONG).show();

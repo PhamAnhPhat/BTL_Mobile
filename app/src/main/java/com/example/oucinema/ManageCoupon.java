@@ -30,6 +30,7 @@ public class ManageCoupon extends AppCompatActivity {
         tk = findViewById(R.id.manage_search_coupon);
 
         String user_id = getIntent().getStringExtra("user_id");
+        String user_name = getIntent().getStringExtra("user_name");
         if(user_id !=null)
             Log.d("test","user id from coupon "+user_id);
         else
@@ -67,7 +68,9 @@ public class ManageCoupon extends AppCompatActivity {
         btnMenuList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Log.d("test","user id from coupon "+user_id);
                 intent.putExtra("user_id",user_id);
+                intent.putExtra("user_name",user_name);
                 startActivity(intent);
             }
         });
@@ -75,6 +78,7 @@ public class ManageCoupon extends AppCompatActivity {
         btnAddCP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intentAddCoupon.putExtra("user_name",user_name);
                 intentAddCoupon.putExtra("user_id",user_id);
                 startActivity(intentAddCoupon);
             }
@@ -90,6 +94,8 @@ public class ManageCoupon extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String itemHieuLuc = sdf.format(item.getThoiGianHieuLuc());
                 Log.d("ngày: ",itemHieuLuc);
+                intentAddCoupon.putExtra("user_name",user_name);
+                intentAddCoupon.putExtra("user_id",user_id);
                 intentAddCoupon.putExtra("coupon_id",id);
                 intentAddCoupon.putExtra("coupon_name",name);
                 intentAddCoupon.putExtra("coupon_phantram",phantram);

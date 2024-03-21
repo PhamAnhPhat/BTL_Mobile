@@ -31,6 +31,7 @@ public class ManageSetFilm extends AppCompatActivity {
         dbHelper = new DBHelper(ManageSetFilm.this);
         tk= findViewById(R.id.manage_search_setfilm);
         String user_id = getIntent().getStringExtra("user_id");
+        String user_name = getIntent().getStringExtra("user_name");
         if(user_id !=null)
             Log.d("test","user id from setfilm "+user_id);
         else
@@ -67,6 +68,7 @@ public class ManageSetFilm extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent.putExtra("user_id",user_id);
+                intent.putExtra("user_name",user_name);
                 startActivity(intent);
             }
         });
@@ -74,6 +76,7 @@ public class ManageSetFilm extends AppCompatActivity {
         btnAddFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intentAddSetFilm.putExtra("user_name",user_name);
                 intentAddSetFilm.putExtra("user_id",user_id);
                 startActivity(intentAddSetFilm);
             }
@@ -90,7 +93,8 @@ public class ManageSetFilm extends AppCompatActivity {
                 double gia = s.getGiaMacDinh();
                 int phimID = s.getPhimID().getId();
                 int phongID = s.getPhongID().getId();
-
+                intentAddSetFilm.putExtra("user_name",user_name);
+                intentAddSetFilm.putExtra("user_id",user_id);
                 intentAddSetFilm.putExtra("set_id",id);
                 intentAddSetFilm.putExtra("set_ngay",ngayChieu);
                 intentAddSetFilm.putExtra("set_gio",gioChieu);

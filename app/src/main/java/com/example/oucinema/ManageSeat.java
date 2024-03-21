@@ -30,6 +30,7 @@ public class ManageSeat extends AppCompatActivity {
         setContentView(R.layout.manage_seat);
         dbHelper = new DBHelper(ManageSeat.this);
         String user_id = getIntent().getStringExtra("user_id");
+        String user_name = getIntent().getStringExtra("user_name");
         if(user_id !=null)
             Log.d("test","user id from seat "+user_id);
         else
@@ -67,6 +68,7 @@ public class ManageSeat extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent.putExtra("user_id",user_id);
+                intent.putExtra("user_name",user_name);
                 startActivity(intent);
             }
         });
@@ -75,6 +77,7 @@ public class ManageSeat extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                Log.d("test","user id from seat "+user_id);
+                intentAddSeat.putExtra("user_name",user_name);
                 intentAddSeat.putExtra("user_id",user_id);
                 startActivity(intentAddSeat);
             }
@@ -87,7 +90,8 @@ public class ManageSeat extends AppCompatActivity {
                 int itemId = gheSelection.getId();
                 String itemName = gheSelection.getTenGhe();
                 String itemLoai = gheSelection.getLoaiGhe();
-
+                intentAddSeat.putExtra("user_name",user_name);
+                intentAddSeat.putExtra("user_id",user_id);
                 intentAddSeat.putExtra("ghe_id",itemId);
                 intentAddSeat.putExtra("user_id",user_id);
                 intentAddSeat.putExtra("ten_Ghe",itemName);

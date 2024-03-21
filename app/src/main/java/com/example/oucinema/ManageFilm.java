@@ -106,11 +106,14 @@ public class ManageFilm extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String itemNgayPhatHanh = sdf.format(item.getNgayPhatHanh());
                 String itemDaoDien = item.getDaoDien();
-//                String itemHinhAnh = item.getHinhAnh().toString();
+                String itemHinhAnh = item.getHinhAnh();
 
 
                 // Khởi động trang khác với dữ liệu
                 Intent intent = new Intent(ManageFilm.this, ManageAddFilm.class);
+                intent.putExtra("item_hinhAnh",itemHinhAnh);
+                intent.putExtra("user_name", user_name);
+                intent.putExtra("user_id",user_id);
                 intent.putExtra("item_id", itemId);
                 intent.putExtra("item_name", itemName);
                 intent.putExtra("item_moTa", itemMoTa);
@@ -132,6 +135,7 @@ public class ManageFilm extends AppCompatActivity {
         btnAddFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intentAddFilm.putExtra("user_name", user_name);
                 intentAddFilm.putExtra("user_id", user_id);
                 startActivity(intentAddFilm);
             }

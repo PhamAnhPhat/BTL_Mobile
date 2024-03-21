@@ -26,6 +26,7 @@ public class ManageAddTheater extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_update_theater);
         dbHelper = new DBHelper(ManageAddTheater.this);
+        String user_name = getIntent().getStringExtra("user_name");
         String user_id = getIntent().getStringExtra("user_id");
         if(user_id !=null)
             Log.d("test","user id from addsetheater "+user_id);
@@ -65,6 +66,7 @@ public class ManageAddTheater extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent.putExtra("user_id",user_id);
+                intent.putExtra("user_name",user_name);
                 startActivity(intent);
             }
         });
@@ -84,6 +86,7 @@ public class ManageAddTheater extends AppCompatActivity {
                         theater.setDiaChi(AddDiaChiRap.getText().toString());
                         theater.setSoDienThoaiLienHe(AddSDTRap.getText().toString());
                         String idd = String.valueOf(id);
+                        theater.setUserUpdate(Integer.parseInt(user_id));
                         boolean b = dbHelper.updateRap(theater,idd);
                         if(b){
                             Toast.makeText(ManageAddTheater.this,"Sửa rạp phim thành công",Toast.LENGTH_LONG).show();
@@ -109,6 +112,7 @@ public class ManageAddTheater extends AppCompatActivity {
                     RapPhim r = new RapPhim();
                     r.setId(id);
                     String idd=String.valueOf(id);
+                    r.setUserUpdate(Integer.parseInt(user_id));
                     boolean b = dbHelper.deleteRap(r,idd);
                     if(b){
                         Toast.makeText(ManageAddTheater.this,"Xoá rạp phim thành công",Toast.LENGTH_LONG).show();
@@ -141,6 +145,7 @@ public class ManageAddTheater extends AppCompatActivity {
                         theater.setTenRap(AddTenRap.getText().toString());
                         theater.setDiaChi(AddDiaChiRap.getText().toString());
                         theater.setSoDienThoaiLienHe(AddSDTRap.getText().toString());
+                        theater.setUserUpdate(Integer.parseInt(user_id));
                         boolean b = dbHelper.addTheater(theater);
                         if(b){
                             Toast.makeText(ManageAddTheater.this,"Thêm rạp phim thành công",Toast.LENGTH_LONG).show();
