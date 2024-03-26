@@ -242,6 +242,37 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+    public boolean updateUser1(User user, String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("hoTen", user.getHoTen());
+        cv.put("phoneNumber", user.getPhoneNumber());
+        cv.put("email", user.getEmail());
+        cv.put("gioiTinh", user.getGioiTinh());
+
+        long user1 = db.update("User", cv, "id= " + id, null);
+        if (user1 == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public User getUserByID (String id ){
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT * FROM User WHERE User.id = ?", new String[]{id});
+        User u = new User();
+        while (cursor.moveToNext()) {
+
+            u.setHoTen(cursor.getString(1));
+            u.setPhoneNumber(cursor.getString(2));
+            u.setEmail(cursor.getString(3));
+            u.setGioiTinh(cursor.getString(4));
+        }
+        cursor.close();
+        database.close();
+        return u;
+
+    }
 
     public boolean checkUserExist(String username) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -1216,6 +1247,43 @@ public class DBHelper extends SQLiteOpenHelper {
         return listGhe;
     }
 
+    // lấy mã ghế
+    public Integer getIDGhe(String s){
+        Integer kq = null;
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT Ghe.id FROM Ghe WHERE Ghe.tenGhe=?", new String[]{s});
+
+        while (cursor.moveToNext()) {
+
+            Integer id = cursor.getInt(0);
+            kq = id;
+        }
+        cursor.close();
+        database.close();
+        return kq;
+    }
+
+    public MaGiamGia getPhanTramCuaMGG(String s){
+        MaGiamGia kq = new MaGiamGia();
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT MaGiamGia.id,MaGiamGia.phanTramGiam,MaGiamGia.thoiGianHieuLuc FROM MaGiamGia WHERE MaGiamGia.tenMaGiam=?", new String[]{s});
+
+        while (cursor.moveToNext()) {
+
+            Integer id = cursor.getInt(0);
+            Integer id1 = cursor.getInt(1);
+            String ngayhieuluc = cursor.getString(2);
+
+            java.sql.Date ngayhlmagiam = java.sql.Date.valueOf(ngayhieuluc.toString());
+            kq.setId(id);
+            kq.setPhanTramGiam(id1);
+            kq.setThoiGianHieuLuc(ngayhlmagiam);
+        }
+        cursor.close();
+        database.close();
+        return kq;
+    }
+
 
     public boolean getVetamthoi(){
         SQLiteDatabase database = getReadableDatabase();
@@ -1237,5 +1305,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
 
     }
+
+
 
 }
