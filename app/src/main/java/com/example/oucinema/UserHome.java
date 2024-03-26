@@ -15,7 +15,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-
+//import com.momo.momo_partner.MoMoPayment;
+//import com.momo.momo_partner.MoMoParameterNamePayment;
 import com.example.oucinema.adapter.FilmAdapter;
 import com.example.oucinema.adapter.Film_UserHome_Adapter;
 import com.example.oucinema.model.Phim;
